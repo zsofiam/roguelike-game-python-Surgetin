@@ -8,4 +8,3 @@ def create_board(width, height):
 
 def put_player_on_board(board, player):
     board[player["row"] - 1][player["column"] - 1] = player["icon"]
-
