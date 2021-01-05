@@ -1,8 +1,9 @@
 import util
 import engine
 import ui
+import character_placement
 
-PLAYER_ICON = '@'
+PLAYER_ICON = '🧙‍'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
 
@@ -14,11 +15,12 @@ def create_player():
     player = {
     "row": PLAYER_START_X,
     "column": PLAYER_START_Y,
-    "icon": ' ' + PLAYER_ICON + ' '}
+    "icon": ' ' + PLAYER_ICON + ''}
     return player
 
 
 def main():
+    character_placement.choose_character()
     player = create_player()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
 

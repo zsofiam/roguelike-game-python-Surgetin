@@ -58,6 +58,7 @@ def character_details():
             print('\033c')
             continue
 
+
 '''      
 def choose_character():
     chars()
@@ -104,7 +105,7 @@ def create_player():
     
     player = {
         "row": player_start_x,
-        "2colum"': player_start_y,
+        "2colum": player_start_y,
         "icon": ' ' + selected_character + ' '} #Nem jöttem rá a megoldásra!
 
     return player
