@@ -11,14 +11,11 @@ BOARD_HEIGHT = 20
 
 
 def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-
-    Returns:
-    dictionary
-    '''
-    pass
+    player = {
+    "row": PLAYER_START_X,
+    "column": PLAYER_START_Y,
+    "icon": ' ' + PLAYER_ICON + ' '}
+    return player
 
 
 def main():
@@ -34,6 +31,42 @@ def main():
         key = util.key_pressed()
         if key == 'q':
             is_running = False
+        elif key == 's':
+            row = player["row"]
+            column = player["column"]
+            board[row-1][column-1] = " - "
+            util.clear_screen()
+            player["row"] += 1
+            engine.put_player_on_board(board, player)
+            util.clear_screen()
+            ui.display_board(board)
+        elif key == 'w':
+            row = player["row"]
+            column = player["column"]
+            board[row-1][column-1] = " - "
+            util.clear_screen()
+            player["row"] -= 1
+            engine.put_player_on_board(board, player)
+            util.clear_screen()
+            ui.display_board(board)
+        elif key == 'a':
+            row = player["row"]
+            column = player["column"]
+            board[row-1][column-1] = " - "
+            util.clear_screen()
+            player["column"] -= 1
+            engine.put_player_on_board(board, player)
+            util.clear_screen()
+            ui.display_board(board)
+        elif key == 'd':
+            row = player["row"]
+            column = player["column"]
+            board[row-1][column-1] = " - "
+            util.clear_screen()
+            player["column"] += 1
+            engine.put_player_on_board(board, player)
+            util.clear_screen()
+            ui.display_board(board)
         else:
             pass
         util.clear_screen()
