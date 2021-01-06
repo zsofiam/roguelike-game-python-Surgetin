@@ -24,14 +24,24 @@ def create_player():
 
 
 def create_enemies():
-    enemy = {
-        "row": random.randint(4, 27),
-        "column": random.randint(4, 17),
+    enemies = [{
+        "row": random.randint(4, 17),
+        "column": random.randint(4, 27),
         "icon": ' ' + ENEMY_ICON + '',
         "power": 60
-        }
+        },{
+        "row": random.randint(4, 17),
+        "column": random.randint(4, 27),
+        "icon": ' ' + ENEMY_ICON + '',
+        "power": 60
+        },{
+        "row": random.randint(4, 17),
+        "column": random.randint(4, 27),
+        "icon": ' ' + ENEMY_ICON + '',
+        "power": 60
+        }]
 
-    return enemy
+    return enemies
 
 
 def create_items():
@@ -57,29 +67,18 @@ def column_is_in_range(column):
     return False
 
 
-# def handle_meets(enemies, player):
-#     index_to_delete = 0
-#     enemy_is_on_field = False
-#     for index, enemy in enumerate(enemies):
-#         if enemy["row"] == player["row"] and enemy["column"] == player["column"]:
-#             player["health"] -= 60
-#             enemy_is_on_field = True
-#             index_to_delete = index
-#             if enemy["power"] > player["health"]:
-#                 print("Béna")
-#     if enemy_is_on_field:
-#         enemies.pop(index_to_delete)
-
-
-# def handle_meets(enemies, player):
-#     enemy_to_delete = None
-#     for enemy in enemies:
-#         if enemy["row"] == player["row"] and enemy["column"] == player["column"]:
-#             player["health"] -= 60
-#             enemy_to_delete = enemy
-#             if enemy["power"] > player["health"]:
-#                 print("Béna")
-#     enemies.remove(enemy_to_delete)
+def handle_meets(enemies, player):
+    index_to_delete = 0
+    enemy_is_on_field = False
+    for index, enemy in enumerate(enemies):
+        if enemy["row"] == player["row"] and enemy["column"] == player["column"]:
+            player["health"] -= 60
+            enemy_is_on_field = True
+            index_to_delete = index
+            if enemy["power"] > player["health"]:
+                print("Béna")
+    if enemy_is_on_field:
+        enemies.pop(index_to_delete)
 
 
 def move_if_valid(key, player, board):
@@ -112,12 +111,13 @@ def main():
     enemies = create_enemies()
     items = create_items()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-    util.clear_screen()
+    
     is_running = True
     while is_running:
         engine.put_player_on_board(board, player)
         engine.put_enemies_on_board(board, enemies)
         engine.put_objects_on_board(board, items)
+        util.clear_screen()
         ui.display_board(board)
 
         key = util.key_pressed()
@@ -125,17 +125,11 @@ def main():
             is_running = False
         elif key == 's' or key == "w" or key == 'a' or key == 'd':
             move_if_valid(key, player, board)
-            # handle_meets(enemies, player)
-            engine.put_player_on_board(board, player)
-            engine.put_enemies_on_board(board, enemies)
-            engine.put_objects_on_board(board, items)
-            util.clear_screen()
-            ui.display_board(board)
+            handle_meets(enemies, player)
         elif key == 'i':
             print_inventory()
         else:
             pass
-        util.clear_screen()
 
 
 def print_inventory():

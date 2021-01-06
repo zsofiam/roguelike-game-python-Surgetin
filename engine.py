@@ -14,5 +14,6 @@ def put_player_on_board(board, player):
     board[player["row"]][player["column"]] = player["icon"]
 
 
-def put_enemies_on_board(board, enemy):
-    board[enemy["row"] -1][enemy["column"] -1] = enemy["icon"]
+def put_enemies_on_board(board, enemies):
+    for enemy in enemies:
+        board[enemy["row"]][enemy["column"]] = enemy["icon"]
