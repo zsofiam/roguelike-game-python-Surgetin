@@ -35,8 +35,9 @@ def create_enemies():
 def main():
     player = create_player()
     enemies = create_enemies()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-
+    level = 1
+    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT, level)
+    
     #util.clear_screen()
     is_running = True
     while is_running:
