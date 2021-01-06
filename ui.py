@@ -5,7 +5,7 @@ def display_board(board):
     os.system('clear')
     print(" " + "_" * 3 * (len(board[0])))
     for i in range(len(board)):
-        if i == len(board) - 1:
+        if i == len(board) - 1 or i == len(board) - 2:
             print("|", end="")
             for j in range(len(board[0])):
                 print(board[i][j], end="")
@@ -18,5 +18,6 @@ def display_board(board):
     print(" " + "_" * 3 * (len(board[0])))
 
 
-def display_attributes(player):
+def display_attributes(player, level):
+    print(f'LEVEL {level}')
     print("Health:", player["health"], "Damage:", 5, "Soak:", 10)

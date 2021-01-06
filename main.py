@@ -28,18 +28,22 @@ def create_player():
 def create_enemies(level):
     enemies = []
     for _ in range(level):
-        enemies.append({
+        enemy = {
         "row": random.randint(4, BOARD_HEIGHT - 3),
         "column": random.randint(4, BOARD_WIDTH - 3),
         "icon": ' ' + ENEMY_ICON + '',
         "power": 60
-        })
+        }
+        if _ == 2:
+            enemy["icon"] = 'ÁÁÁ'
+            enemy["power"] = 500
+        enemies.append(enemy)
     return enemies
 
 
-def create_items():
+def create_items(level):
     items = []
-    for _ in range(5):
+    for _ in range(3 - level):
         for _ in range(5):
             valami = random_items_generator()
         item = {
@@ -117,12 +121,12 @@ def is_player_alive(player):
     return True
 
 
-def handle_exit(player, level):
-    if player["row"] == BOARD_HEIGHT-1 and player["column"] == BOARD_WIDTH-1:
+def handle_exit(player, level, key):
+    if player["row"] == BOARD_HEIGHT-1 and player["column"] == BOARD_WIDTH-1 and key == 'd':
         player["row"] = PLAYER_START_X
         player["column"] = PLAYER_START_Y
         level += 1
-        if level == 3:
+        if level == 4:
             print("Hurray!")
             sys.exit()
         process_game(level, player)
@@ -140,6 +144,10 @@ def move_enemies(enemies, player):
             enemy["column"] -= 1
         elif enemy["row"] < player["row"]:
             enemy["row"] += 1
+        elif enemy["column"] > player["column"]:
+            enemy["column"] -= 1
+        elif enemy["column"] < player["column"]:
+            enemy["column"] += 1
         else:
             enemy["row"] -= 1
     handle_meets(enemies, player)
@@ -147,7 +155,7 @@ def move_enemies(enemies, player):
 
 def process_game(level, player):
     enemies = create_enemies(level)
-    items = create_items()
+    items = create_items(level)
     
     is_running = True
     while is_running:
@@ -156,12 +164,12 @@ def process_game(level, player):
         engine.put_objects_on_board(board, items)
         engine.put_enemies_on_board(board, enemies)
         ui.display_board(board)
-        ui.display_attributes(player)
+        ui.display_attributes(player, level)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
         elif key == 's' or key == "w" or key == 'a' or key == 'd':
-            handle_exit(player, level)
+            handle_exit(player, level, key)
             move_if_valid(key, player, board)
             handle_meets(enemies, player)
             if not is_player_alive(player):
