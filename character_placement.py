@@ -3,7 +3,6 @@ import engine
 import ui
 
 
-# selected_character = "@"
 player_start_x = 3
 player_start_y = 3
 
@@ -105,8 +104,8 @@ def create_player():
     
     player = {
         "row": player_start_x,
-        "2colum": player_start_y,
-        "icon": ' ' + selected_character + ' '} #Nem jöttem rá a megoldásra!
+        "column": player_start_y,
+        "icon": ' ' + selected_character + ' '}
 
     return player
 
@@ -127,7 +126,7 @@ def main():
         elif key == 's':
             row = player["row"]
             column = player["column"]
-            board[row-1][column-1] = "   "
+            board[row-1][column-1] = " - "
             util.clear_screen()
             player["row"] += 1
             engine.put_player_on_board(board, player)
@@ -136,7 +135,7 @@ def main():
         elif key == 'w':
             row = player["row"]
             column = player["column"]
-            board[row-1][column-1] = "   "
+            board[row-1][column-1] = " - "
             util.clear_screen()
             player["row"] -= 1
             engine.put_player_on_board(board, player)
@@ -145,7 +144,7 @@ def main():
         elif key == 'a':
             row = player["row"]
             column = player["column"]
-            board[row-1][column-1] = "   "
+            board[row-1][column-1] = " - "
             util.clear_screen()
             player["column"] -= 1
             engine.put_player_on_board(board, player)
@@ -154,7 +153,7 @@ def main():
         elif key == 'd':
             row = player["row"]
             column = player["column"]
-            board[row-1][column-1] = "   "
+            board[row-1][column-1] = " - "
             util.clear_screen()
             player["column"] += 1
             engine.put_player_on_board(board, player)
