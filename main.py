@@ -24,34 +24,27 @@ def create_player():
 
 
 def create_enemies():
-    enemies = [{
-        "row": random.randint(4, 17),
-        "column": random.randint(4, 27),
+    enemies = []
+    for _ in range(3):
+        enemies.append({
+        "row": random.randint(4, BOARD_HEIGHT - 3),
+        "column": random.randint(4, BOARD_WIDTH - 3),
         "icon": ' ' + ENEMY_ICON + '',
         "power": 60
-        },{
-        "row": random.randint(4, 17),
-        "column": random.randint(4, 27),
-        "icon": ' ' + ENEMY_ICON + '',
-        "power": 60
-        },{
-        "row": random.randint(4, 17),
-        "column": random.randint(4, 27),
-        "icon": ' ' + ENEMY_ICON + '',
-        "power": 60
-        }]
-
+        })
     return enemies
 
 
 def create_items():
+    items = []
     for _ in range(5):
-        valami = random_items_generator()
-    items = {
-        "row": random.randint(4, 17),
-        "column": random.randint(4, 27),
-        "icon": ' ' + valami + ''}
-
+        for _ in range(5):
+            valami = random_items_generator()
+        item = {
+            "row": random.randint(4, BOARD_HEIGHT - 3),
+            "column": random.randint(4, BOARD_WIDTH - 3),
+            "icon": ' ' + valami + ''}
+        items.append(item)
     return items
     
 
