@@ -48,8 +48,8 @@ def create_items():
     for _ in range(5):
         valami = random_items_generator()
     items = {
-        "row": random.randint(4, 27),
-        "column": random.randint(4, 17),
+        "row": random.randint(4, 17),
+        "column": random.randint(4, 27),
         "icon": ' ' + valami + ''}
 
     return items
@@ -79,7 +79,7 @@ def handle_meets(enemies, player):
                 print("Béna")
     if enemy_is_on_field:
         enemies.pop(index_to_delete)
-
+    
 
 def move_if_valid(key, player, board):
     row = player["row"]
@@ -106,6 +106,12 @@ def move_if_valid(key, player, board):
             board[row][column] = "   "
 
 
+def is_player_alive(player):
+    if player["health"] <= 0:
+        return False
+    return True
+
+
 def main():
     player = create_player()
     enemies = create_enemies()
@@ -126,6 +132,9 @@ def main():
         elif key == 's' or key == "w" or key == 'a' or key == 'd':
             move_if_valid(key, player, board)
             handle_meets(enemies, player)
+            if not is_player_alive(player):
+                print("Sorry, you died.")
+                is_running = False
         elif key == 'i':
             print_inventory()
         else:
