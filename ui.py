@@ -16,3 +16,7 @@ def display_board(board):
                 print(board[i][j], end="")
             print("|")
     print(" " + "_" * 3 * (len(board[0])))
+
+
+def display_attributes(player):
+    print("Health:", player["health"], "Damage:", 5, "Soak:", 10)

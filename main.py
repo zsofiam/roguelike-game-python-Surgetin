@@ -138,9 +138,8 @@ def process_game(level, player):
         engine.put_player_on_board(board, player)
         engine.put_enemies_on_board(board, enemies)
         engine.put_objects_on_board(board, items)
-        # util.clear_screen()
         ui.display_board(board)
-
+        ui.display_attributes(player)
         key = util.key_pressed()
         if key == 'q':
             is_running = False
