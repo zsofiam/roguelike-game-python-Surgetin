@@ -128,16 +128,33 @@ def handle_exit(player, level):
         process_game(level, player)
         
 
+def move_enemies(enemies, player):
+    for enemy in enemies:
+        if enemy["column"] == player["column"] and enemy["row"] < player["row"]:
+            enemy["row"] += 1
+        elif enemy["column"] == player["column"] and enemy["row"] > player["row"]:
+            enemy["row"] -= 1
+        elif enemy["row"] == player["row"] and enemy["column"] < player["column"]:
+            enemy["column"] += 1
+        elif enemy["row"] == player["row"] and enemy["column"] > player["column"]:
+            enemy["column"] -= 1
+        elif enemy["row"] < player["row"]:
+            enemy["row"] += 1
+        else:
+            enemy["row"] -= 1
+    handle_meets(enemies, player)
+
+
 def process_game(level, player):
     enemies = create_enemies()
     items = create_items()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     
     is_running = True
     while is_running:
+        board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
         engine.put_player_on_board(board, player)
-        engine.put_enemies_on_board(board, enemies)
         engine.put_objects_on_board(board, items)
+        engine.put_enemies_on_board(board, enemies)
         ui.display_board(board)
         ui.display_attributes(player)
         key = util.key_pressed()
@@ -151,6 +168,7 @@ def process_game(level, player):
                 print("Sorry, you died.")
                 is_running = False
             handle_meets_with_items(items, player)
+            move_enemies(enemies, player)
         elif key == 'i':
             print_inventory()
         else:
