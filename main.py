@@ -171,6 +171,7 @@ def items2():
         key = random.choice(list(item))
         print(item[key])
         list_of_items.append(item[key])
+
     return list_of_items
 
 
