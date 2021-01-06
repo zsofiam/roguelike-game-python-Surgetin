@@ -25,9 +25,9 @@ def create_player():
     return player
 
 
-def create_enemies():
+def create_enemies(level):
     enemies = []
-    for _ in range(3):
+    for _ in range(level):
         enemies.append({
         "row": random.randint(4, BOARD_HEIGHT - 3),
         "column": random.randint(4, BOARD_WIDTH - 3),
@@ -146,7 +146,7 @@ def move_enemies(enemies, player):
 
 
 def process_game(level, player):
-    enemies = create_enemies()
+    enemies = create_enemies(level)
     items = create_items()
     
     is_running = True
