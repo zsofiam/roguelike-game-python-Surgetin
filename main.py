@@ -25,8 +25,8 @@ def create_player():
 
 def create_enemies():
     enemy = {
-        "row": random.randint(1, 29),
-        "column": random.randint(1, 19),
+        "row": random.randint(4, 27),
+        "column": random.randint(4, 17),
         "icon": ' ' + ENEMY_ICON + '',
         "power": 60
         }
@@ -35,10 +35,12 @@ def create_enemies():
 
 
 def create_items():
+    for _ in range(5):
+        valami = random_items_generator()
     items = {
-        "row": random.randint(1, 29),
-        "column": random.randint(1, 19),
-        "icon": ' ' + items + ' '}
+        "row": random.randint(4, 27),
+        "column": random.randint(4, 17),
+        "icon": ' ' + valami + ''}
 
     return items
     
@@ -108,14 +110,14 @@ def move_if_valid(key, player, board):
 def main():
     player = create_player()
     enemies = create_enemies()
-    items = items2()
+    items = create_items()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
     util.clear_screen()
     is_running = True
     while is_running:
         engine.put_player_on_board(board, player)
         engine.put_enemies_on_board(board, enemies)
-        # engine.put_objects_on_board(board, items)
+        engine.put_objects_on_board(board, items)
         ui.display_board(board)
 
         key = util.key_pressed()
@@ -126,7 +128,7 @@ def main():
             # handle_meets(enemies, player)
             engine.put_player_on_board(board, player)
             engine.put_enemies_on_board(board, enemies)
-            # engine.put_objects_on_board(board, items)
+            engine.put_objects_on_board(board, items)
             util.clear_screen()
             ui.display_board(board)
         elif key == 'i':
@@ -151,28 +153,33 @@ def print_inventory():
         util.clear_screen()
 
 
-def player_stat():
-    health = 100
-    damage = 30
-    money = 0
-    food = 0
-    while is_running:
-        pass
+# def player_stat():
+#     health = 100
+#     damage = 30
+#     money = 0
+#     food = 0
+#     while is_running:
+#         pass
 
 
-def items2():
+def random_items_generator():
     list_of_items = []
     item = {
         "money": "💵",
         "food": "🍖",
-        "armor": "🛡️"}
+        "armor": "🛡️ "}
 
     for _ in range(10):
         key = random.choice(list(item))
-        print(item[key])
         list_of_items.append(item[key])
 
-    return list_of_items
+    valami2 = random.choice(list_of_items)
+
+    return valami2
+
+
+def put_items_on_board():
+    pass
 
 
 def item_details():
