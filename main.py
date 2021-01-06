@@ -2,6 +2,8 @@ import util
 import engine
 import ui
 import random
+import sys
+
 
 PLAYER_ICON = '🧙‍'
 ENEMY_ICON = '💀'
@@ -68,10 +70,20 @@ def handle_meets(enemies, player):
             player["health"] -= 60
             enemy_is_on_field = True
             index_to_delete = index
-            if enemy["power"] > player["health"]:
-                print("Béna")
     if enemy_is_on_field:
         enemies.pop(index_to_delete)
+
+
+def handle_meets_with_items(items, player):
+    index_to_delete = 0
+    item_is_on_field = False
+    for index, item in enumerate(items):
+        if item["row"] == player["row"] and item["column"] == player["column"]:
+            player["health"] += 60
+            item_is_on_field = True
+            index_to_delete = index
+    if item_is_on_field:
+        items.pop(index_to_delete)
     
 
 def move_if_valid(key, player, board):
@@ -105,8 +117,18 @@ def is_player_alive(player):
     return True
 
 
-def main():
-    player = create_player()
+def handle_exit(player, level):
+    if player["row"] == BOARD_HEIGHT-1 and player["column"] == BOARD_WIDTH-1:
+        player["row"] = PLAYER_START_X
+        player["column"] = PLAYER_START_Y
+        level += 1
+        if level == 3:
+            print("Hurray!")
+            sys.exit()
+        process_game(level, player)
+        
+
+def process_game(level, player):
     enemies = create_enemies()
     items = create_items()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
@@ -116,22 +138,30 @@ def main():
         engine.put_player_on_board(board, player)
         engine.put_enemies_on_board(board, enemies)
         engine.put_objects_on_board(board, items)
-        util.clear_screen()
+        # util.clear_screen()
         ui.display_board(board)
 
         key = util.key_pressed()
         if key == 'q':
             is_running = False
         elif key == 's' or key == "w" or key == 'a' or key == 'd':
+            handle_exit(player, level)
             move_if_valid(key, player, board)
             handle_meets(enemies, player)
             if not is_player_alive(player):
                 print("Sorry, you died.")
                 is_running = False
+            handle_meets_with_items(items, player)
         elif key == 'i':
             print_inventory()
         else:
-            pass
+            continue
+
+
+def main():
+    player = create_player()
+    level = 1
+    process_game(level, player)
 
 
 def print_inventory():
@@ -172,10 +202,6 @@ def random_items_generator():
     valami2 = random.choice(list_of_items)
 
     return valami2
-
-
-def put_items_on_board():
-    pass
 
 
 def item_details():
