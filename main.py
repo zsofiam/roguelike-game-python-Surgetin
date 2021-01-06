@@ -19,15 +19,27 @@ def create_player():
     return player
 
 
+def create_enemies():
+    pass
+
+
+def create_objects():
+    pass
+
+
 def main():
     character_placement.choose_character()
     player = create_player()
+    enemies = create_enemies()
+    objects = create_objects()
     board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
 
     util.clear_screen()
     is_running = True
     while is_running:
         engine.put_player_on_board(board, player)
+        engine.place_enemies_on_board(board, enemies)
+        engine.place_objects_on_board(board, objects)
         ui.display_board(board)
 
         key = util.key_pressed()
