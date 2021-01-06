@@ -32,25 +32,49 @@ def create_enemies():
     return enemies
 
 
-def move_player(key, player, board):
+def row_is_in_range(row):
+    if row >= 0 and row < BOARD_HEIGHT:
+        return True
+    return False
+
+
+def column_is_in_range(column):
+    if column >= 0 and column < BOARD_WIDTH:
+        return True
+    return False
+
+
+def handle_meets():
+    pass
+
+
+def move_if_valid(key, player, board):
     row = player["row"]
     column = player["column"]
     if key == "s":
-        player["row"] += 1
+        new_row = player["row"] + 1
+        if row_is_in_range(new_row):
+            player["row"] += 1
     if key == "w":
-        player["row"] -= 1
+        new_row = player["row"] - 1
+        if row_is_in_range(new_row):
+            player["row"] -= 1
     if key == "a":
-        player["column"] -= 1
+        new_column = player["column"] - 1
+        if column_is_in_range(new_column):
+            player["column"] -= 1
     if key == "d":
-        player["column"] += 1
+        new_column = player["column"] + 1
+        if column_is_in_range(new_column):
+            player["column"] += 1
+    engine.put_player_on_board(board, player)
     board[row-1][column-1] = "   "
 
 
 def main():
     player = create_player()
-    enemies = create_enemies()
-    level = 1
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT, level)
+    #enemies = create_enemies()
+    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
 
     #util.clear_screen()
     is_running = True
@@ -62,27 +86,9 @@ def main():
         key = util.key_pressed()
         if key == 'q':
             is_running = False
-        elif key == 's':
-            move_player(key, player, board)
-            engine.put_player_on_board(board, player)
-            # engine.put_enemies_on_board(board, enemies)
-            util.clear_screen()
-            ui.display_board(board)
-        elif key == 'w':
-            move_player(key, player, board)
-            engine.put_player_on_board(board, player)
-            # engine.put_enemies_on_board(board, enemies)
-            util.clear_screen()
-            ui.display_board(board)
-        elif key == 'a':
-            move_player(key, player, board)
-            engine.put_player_on_board(board, player)
-            # engine.put_enemies_on_board(board, enemies)
-            util.clear_screen()
-            ui.display_board(board)
-        elif key == 'd':
-            move_player(key, player, board)
-            engine.put_player_on_board(board, player)
+        elif key == 's' or key == 'w' or key == 'a' or key == 'd':
+            move_if_valid(key, player, board)
+            #engine.put_player_on_board(board, player)
             # engine.put_enemies_on_board(board, enemies)
             util.clear_screen()
             ui.display_board(board)
