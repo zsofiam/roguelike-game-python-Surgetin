@@ -19,7 +19,7 @@ def create_player():
         "row": PLAYER_START_X,
         "column": PLAYER_START_Y,
         "icon": ' ' + PLAYER_ICON + '',
-        "health": 100
+        "health": 1000
     }
 
     return player
@@ -130,7 +130,7 @@ def handle_exit(player, level, key):
             print("Hurray!")
             sys.exit()
         process_game(level, player)
-        
+
 
 def move_enemies(enemies, player):
     for enemy in enemies:
@@ -156,7 +156,7 @@ def move_enemies(enemies, player):
 def process_game(level, player):
     enemies = create_enemies(level)
     items = create_items(level)
-    
+
     is_running = True
     while is_running:
         board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
@@ -179,6 +179,9 @@ def process_game(level, player):
             move_enemies(enemies, player)
         elif key == 'i':
             print_inventory()
+        elif key == 'c':
+            cheat(player)
+            pass
         else:
             continue
 
@@ -204,19 +207,10 @@ def print_inventory():
         util.clear_screen()
 
 
-# def player_stat():
-#     health = 100
-#     damage = 30
-#     money = 0
-#     food = 0
-#     while is_running:
-#         pass
-
-
 def random_items_generator():
     list_of_items = []
     item = {
-        "money": "💵",
+        "money": "💵", #pénzt máni
         "food": "🍖",
         "armor": "🛡️ "}
 
@@ -228,6 +222,9 @@ def random_items_generator():
 
     return valami2
 
+def cheat(player):
+    player["health"] += 60
+    pass
 
 def item_details():
     pass
@@ -239,3 +236,39 @@ if __name__ == '__main__':
 
 # 🌳🌳
 # 🧱🧱
+
+# enemies = {
+#     'first_enemy': {
+#         'name': 'Pikachu'
+#         'icon': '🐝',
+#         'power': 40,
+#     },
+#     'second_enemy': {
+#         'name': 'InuYasha'
+#         'icon': '🦈',
+#         'power': 50,
+#     },
+#     'third_enemy': {
+#         'name': 'Rambo'
+#         'icon': '🦂',
+#         'power': 60,
+#     }
+# }
+
+# items = {
+#     'first_item': {
+#         'name': 'Beer'
+#         'icon': '🍺',
+#         'health': 40,
+#     },
+#     'second_item': {
+#         'name': 'Donut'
+#         'icon': '🍩',
+#         'health': 50,
+#     },
+#     'third_item': {
+#         'name': 'Banana'
+#         'icon': '🍌',
+#         'power': 60,
+#     }
+# }
