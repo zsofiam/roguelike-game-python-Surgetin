@@ -3,12 +3,12 @@ import engine
 import ui
 import random
 import sys
+import printing_name
 
 
 PLAYER_ICON = '🧙‍'
-ENEMY_ICON = '💀'
-PLAYER_START_X = 3
-PLAYER_START_Y = 3
+PLAYER_START_X = 7
+PLAYER_START_Y = 14
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
@@ -21,35 +21,31 @@ def create_player():
         "icon": ' ' + PLAYER_ICON + '',
         "health": 1000
     }
-
     return player
 
 
 def create_enemies(level):
     enemies = []
-    for _ in range(level):
+    for _ in range(8 * level):
+        for _ in range(15):
+            enemy_icons = random_enemies_generator()
         enemy = {
-        "row": random.randint(4, BOARD_HEIGHT - 3),
-        "column": random.randint(4, BOARD_WIDTH - 3),
-        "icon": ' ' + ENEMY_ICON + '',
-        "power": 60
-        }
-        if _ == 2:
-            enemy["icon"] = ' ' + '😈'
-            enemy["power"] = 500
+            "row": random.randint(1, BOARD_HEIGHT - 1),
+            "column": random.randint(1, BOARD_WIDTH - 1),
+            "icon": ' ' + enemy_icons + ''}
         enemies.append(enemy)
     return enemies
 
 
 def create_items(level):
     items = []
-    for _ in range(3 - level):
-        for _ in range(5):
-            valami = random_items_generator()
+    for _ in range(15 - level):
+        for _ in range(15):
+            item_icon = random_items_generator()
         item = {
-            "row": random.randint(4, BOARD_HEIGHT - 3),
-            "column": random.randint(4, BOARD_WIDTH - 3),
-            "icon": ' ' + valami + ''}
+            "row": random.randint(1, BOARD_HEIGHT - 1),
+            "column": random.randint(1, BOARD_WIDTH - 1),
+            "icon": ' ' + item_icon + ''}
         items.append(item)
     return items
     
@@ -125,9 +121,10 @@ def handle_exit(player, level, key):
     if player["row"] == BOARD_HEIGHT-1 and player["column"] == BOARD_WIDTH-1 and key == 'd':
         player["row"] = PLAYER_START_X
         player["column"] = PLAYER_START_Y
-        level += 1
+        level += 1           
         if level == 4:
-            print("Hurray!")
+            util.clear_screen()
+            printing_name.won()
             sys.exit()
         process_game(level, player)
 
@@ -177,98 +174,53 @@ def process_game(level, player):
                 is_running = False
             handle_meets_with_items(items, player)
             move_enemies(enemies, player)
-        elif key == 'i':
-            print_inventory()
         elif key == 'c':
-            cheat(player)
-            pass
+            player["health"] += 10000
         else:
             continue
 
 
 def main():
+    printing_name.main_screen()
     player = create_player()
     level = 1
     process_game(level, player)
 
 
-def print_inventory():
-    util.clear_screen()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
-    print("Inventory")
-    print("___________________________________________________")
-    print("NAME                AMOUNT                ATTRIBUTE")
-    print()
-    key = util.key_pressed()
-    if key == "i":
-        ui.display_board(board)
-    else:
-        pass
-        util.clear_screen()
-
-
 def random_items_generator():
     list_of_items = []
     item = {
-        "money": "💵", #pénzt máni
-        "food": "🍖",
-        "armor": "🛡️ "}
+        "2": "🍖",
+        "3": "🍺",
+        "4": "🍩"
+        }
 
     for _ in range(10):
         key = random.choice(list(item))
         list_of_items.append(item[key])
 
-    valami2 = random.choice(list_of_items)
+    items = random.choice(list_of_items)
 
-    return valami2
+    return items
 
-def cheat(player):
-    player["health"] += 60
-    pass
 
-def item_details():
-    pass
+def random_enemies_generator():
+    list_of_enemies = []
+    enemy = {
+        "1": "💀",
+        "2": "🦈",
+        "3": "🦖",
+        "4": "🦀"
+        }
+
+    for _ in range(10):
+        key = random.choice(list(enemy))
+        list_of_enemies.append(enemy[key])
+
+    enemies = random.choice(list_of_enemies)
+
+    return enemies
 
 
 if __name__ == '__main__':
     main()
-
-
-# 🌳🌳
-# 🧱🧱
-
-# enemies = {
-#     'first_enemy': {
-#         'name': 'Pikachu'
-#         'icon': '🐝',
-#         'power': 40,
-#     },
-#     'second_enemy': {
-#         'name': 'InuYasha'
-#         'icon': '🦈',
-#         'power': 50,
-#     },
-#     'third_enemy': {
-#         'name': 'Rambo'
-#         'icon': '🦂',
-#         'power': 60,
-#     }
-# }
-
-# items = {
-#     'first_item': {
-#         'name': 'Beer'
-#         'icon': '🍺',
-#         'health': 40,
-#     },
-#     'second_item': {
-#         'name': 'Donut'
-#         'icon': '🍩',
-#         'health': 50,
-#     },
-#     'third_item': {
-#         'name': 'Banana'
-#         'icon': '🍌',
-#         'power': 60,
-#     }
-# }

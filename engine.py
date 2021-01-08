@@ -6,13 +6,13 @@ def create_board(width, height):
     return board
 
 
+def put_player_on_board(board, player):
+    board[player["row"]][player["column"]] = player["icon"]
+
+
 def put_objects_on_board(board, items):
     for item in items:
         board[item["row"]][item["column"]] = item["icon"]
-
-
-def put_player_on_board(board, player):
-    board[player["row"]][player["column"]] = player["icon"]
 
 
 def put_enemies_on_board(board, enemies):
