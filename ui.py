@@ -20,4 +20,4 @@ def display_board(board):
 
 def display_attributes(player, level):
     print(f'LEVEL {level}')
-    print("Health:", player["health"], "Damage:", 5, "Soak:", 10)
+    print("Health:", player["health"], "Damage:", 60, "Soak:", 10)

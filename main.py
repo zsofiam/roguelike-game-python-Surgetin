@@ -35,7 +35,7 @@ def create_enemies(level):
         "power": 60
         }
         if _ == 2:
-            enemy["icon"] = 'ÁÁÁ'
+            enemy["icon"] = ' ' + '😈'
             enemy["power"] = 500
         enemies.append(enemy)
     return enemies
